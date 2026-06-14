@@ -457,11 +457,22 @@ def fig_to_bytes(fig: go.Figure, fmt: str = "png") -> bytes:
 # ---------------------------------------------------------------------------
 
 def _apply_grid_style(fig: go.Figure) -> None:
+    # Explicitly pin all text to near-black so charts are readable on both
+    # Streamlit's dark theme (white chart bg + dark page bg) and light theme.
     fig.update_xaxes(
         showgrid=True, gridwidth=1, gridcolor="#E5E7EB",
         zeroline=False,
+        title_font=dict(color="#111827"),
+        tickfont=dict(color="#374151"),
     )
     fig.update_yaxes(
         showgrid=True, gridwidth=1, gridcolor="#E5E7EB",
         zeroline=False,
+        title_font=dict(color="#111827"),
+        tickfont=dict(color="#374151"),
+    )
+    fig.update_layout(
+        font_color="#111827",
+        title_font_color="#111827",
+        legend_font_color="#111827",
     )
