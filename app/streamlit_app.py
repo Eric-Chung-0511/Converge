@@ -373,6 +373,13 @@ st.caption(
     "and a built-in mathematical validation bench."
 )
 
+# Handbook expander — load from HANDBOOK.md next to the repo root
+_handbook_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "HANDBOOK.md")
+if os.path.exists(_handbook_path):
+    with st.expander("📖 User Handbook — click to read before you start", expanded=False):
+        with open(_handbook_path, "r", encoding="utf-8") as _f:
+            st.markdown(_f.read())
+
 tab_data, tab_results, tab_criticality, tab_mergebias, tab_drivers, tab_validation, tab_dist = st.tabs([
     "Data Input",
     "S-Curve & Histogram",
