@@ -170,7 +170,6 @@ The tornado chart ranks activities by their Spearman rank correlation with total
 **Interpreting the values:**
 - Correlation near **+1.0** → when this activity takes longer, the project always finishes later. It is the dominant driver.
 - Correlation near **0** → this activity has little influence on total completion, regardless of how long it takes.
-- Negative values are rare in standard networks but can appear in specific topologies.
 
 ---
 
@@ -278,7 +277,7 @@ The three Hulett cases serve as independently verifiable benchmarks. Any reviewe
 | Case | Network | Published target to reproduce |
 |---|---|---|
 | Case 1 | Single path, 2 activities. Activity A101: Triangular(40, 50, 100) | CPM date is only ~10–15 % likely to be met |
-| Case 2 | Two identical parallel paths merging (4 activities) | CPM date drops to < 5 % likely; mean shifts ~10 calendar days later than Case 1 |
+| Case 2 | Two identical parallel paths merging (4 activities) | CPM date drops to < 5 % likely; mean shifts ~10 working days later than Case 1 |
 | Case 3 | B101 shortened so Path A is CPM critical (130 d) but Path B has 125 d (5 d float) | Path B has ~69 % criticality; Path A has ~31 % — opposite of what CPM implies |
 
 ---
@@ -291,7 +290,7 @@ This tab lets you enter a three-point estimate (minimum, most likely, maximum) a
 
 **Why this matters:**
 
-PERT (Beta-PERT) assigns a weight of 4 to the most likely value, which effectively **fixes the standard deviation** at approximately `(b − a) / 6` regardless of how skewed the distribution is. For a highly asymmetric activity (e.g., min = 10 d, most likely = 12 d, max = 60 d), PERT significantly **understates tail risk** compared to Triangular.
+PERT (Beta-PERT) assigns a weight of 4 to the most likely value, which holds the standard deviation **close to** `(b − a) / 6` regardless of how skewed the distribution is. For a highly asymmetric activity (e.g., min = 10 d, most likely = 12 d, max = 60 d), PERT significantly **understates tail risk** compared to Triangular.
 
 The chart shows:
 - The full probability density of each distribution
@@ -337,14 +336,14 @@ Use **Save Project (JSON)** in the sidebar to save all activities, risk drivers,
 ## 11. Key Concepts Explained
 
 ### Monte Carlo Simulation
-Monte Carlo simulation runs the schedule many thousands of times. In each iteration, a random duration is sampled for every activity from its probability distribution. The engine then computes the longest path through the network for that iteration. After N iterations, the distribution of outcomes gives a statistically reliable picture of schedule risk. At N = 10,000, the P50 is stable to within ±0.5 working days.
+Monte Carlo simulation runs the schedule many thousands of times. In each iteration, a random duration is sampled for every activity from its probability distribution. The engine then computes the longest path through the network for that iteration. After N iterations, the distribution of outcomes gives a statistically reliable picture of schedule risk. At N = 10,000, percentile estimates are stable to within a fraction of a working day.
 
 ### Why CPM Completion Dates Are Optimistic
 There are two independent reasons:
 
 1. **Distribution skew:** PERT and triangular distributions have a longer right tail than left tail — the mean is higher than the mode. CPM uses the mode; simulation uses the full distribution including the tail.
 
-2. **Merge bias (Jensen's inequality):** At a merge node, the project must wait for the *slowest* of all incoming paths. Even if each path finishes at its mean, the slowest will always exceed the mean of the maximum. This effect grows with the number of parallel paths and increases with path uncertainty.
+2. **Merge bias (Jensen's inequality):** At a merge node, the project must wait for the slowest of all incoming paths. The expected value of that slowest path exceeds the largest individual path mean (E[max] ≥ max(E[path])) — so even when every path is "on time" on average, the merge still lands late. This effect grows with the number of parallel paths and increases with path uncertainty.
 
 ### Latin Hypercube Sampling (LHS)
 Pure random sampling can leave gaps in the probability space by chance, especially at low N. LHS divides the 0–1 range into N equal strata and ensures exactly one sample per stratum per dimension. This gives more uniform coverage and achieves the same statistical precision as pure random with fewer iterations — typically 20–40 % fewer iterations to reach the same SE.
