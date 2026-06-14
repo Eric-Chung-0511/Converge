@@ -42,7 +42,7 @@ from converge import io as conv_io
 from app.plotting import (
     plot_s_curve, plot_histogram, plot_tornado, plot_criticality,
     plot_correlation_matrix, plot_convergence, plot_pert_vs_triangular,
-    fig_to_bytes,
+    fig_to_bytes, _apply_grid_style,
 )
 
 # ============================================================
@@ -854,19 +854,24 @@ consistently run optimistic: the L5 IST merge point collects 4+ parallel subsyst
             histnorm="probability density",
         ))
         fig_mb.add_vline(x=mb.cpm_completion, line=dict(color="#6B7280", width=2.5, dash="dash"),
-                         annotation_text=f"CPM (mode): {mb.cpm_completion:.0f}d", annotation_position="top left")
+                         annotation_text=f"CPM (mode): {mb.cpm_completion:.0f}d", annotation_position="top left",
+                         annotation=dict(font=dict(color="#111827", size=11)))
         fig_mb.add_vline(x=mb.mean_based_completion, line=dict(color="#059669", width=2, dash="dashdot"),
-                         annotation_text=f"T(E[d]): {mb.mean_based_completion:.0f}d", annotation_position="bottom left")
+                         annotation_text=f"T(E[d]): {mb.mean_based_completion:.0f}d", annotation_position="bottom left",
+                         annotation=dict(font=dict(color="#111827", size=11)))
         fig_mb.add_vline(x=mb.simulated_mean, line=dict(color="#DC2626", width=2.5),
-                         annotation_text=f"E[T]: {mb.simulated_mean:.0f}d", annotation_position="top right")
+                         annotation_text=f"E[T]: {mb.simulated_mean:.0f}d", annotation_position="top right",
+                         annotation=dict(font=dict(color="#111827", size=11)))
         fig_mb.add_vline(x=results.percentile(50), line=dict(color="#D97706", width=2, dash="dot"),
-                         annotation_text=f"P50: {results.percentile(50):.0f}d", annotation_position="bottom right")
+                         annotation_text=f"P50: {results.percentile(50):.0f}d", annotation_position="bottom right",
+                         annotation=dict(font=dict(color="#111827", size=11)))
         fig_mb.update_layout(
             title="Completion Distribution with CPM Reference",
             xaxis_title="Working Days", yaxis_title="Probability Density",
             plot_bgcolor="white", paper_bgcolor="white",
             margin=dict(l=60, r=30, t=60, b=50),
         )
+        _apply_grid_style(fig_mb)
         st.plotly_chart(fig_mb, use_container_width=True)
         _download_chart(fig_mb, "Merge Bias Distribution", "mergebias")
 
