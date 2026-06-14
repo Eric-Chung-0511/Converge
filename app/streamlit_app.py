@@ -11,6 +11,15 @@ Main    : tabs for Results, Criticality, Merge Bias, Risk Drivers,
 
 from __future__ import annotations
 
+import os
+import sys
+
+# Ensure the repo root is on sys.path so `converge` and `app` are importable
+# regardless of how Streamlit Cloud mounts and runs the app.
+_repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _repo_root not in sys.path:
+    sys.path.insert(0, _repo_root)
+
 import io
 import json
 import traceback

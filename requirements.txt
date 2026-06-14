@@ -1,6 +1,3 @@
-# Install this repo as a package so `converge` and `app` are importable on Streamlit Cloud.
--e .
-
 # Pinned bounds — chosen so that `pip install -r requirements.txt` works
 # self-contained on a clean machine:
 #   plotly < 6 + kaleido == 0.2.1 : static chart export (PNG/SVG/PDF) with the
