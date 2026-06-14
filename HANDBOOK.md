@@ -23,7 +23,7 @@
 
 ## 1. Quick Start (5 minutes)
 
-1. **Load an example** — In the left sidebar, select **"DC Commissioning (MEP → IST)"** from the example dropdown and click **Load Example**. This loads a realistic data-centre commissioning network with ~14 activities and pre-configured risk drivers.
+1. **Load an example** — In the left sidebar, select **"DC Commissioning (MEP → IST)"** from the example dropdown and click **Load Example**. This loads a synthetic but representative data-centre commissioning network with ~14 activities and pre-configured risk drivers. The durations are illustrative, not from a real project; the network is deliberately structured to expose merge bias at the L5 IST node.
 
 2. **Run the simulation** — Click the blue **Run Simulation** button at the bottom of the sidebar. The engine runs 10,000 Monte Carlo iterations in a few seconds.
 
